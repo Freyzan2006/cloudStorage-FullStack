@@ -1,0 +1,13 @@
+
+
+
+services:
+  nest_app:
+    build: .
+    container_name: nest_app
+    ports:
+      - "4200:4200"
+    env_file:
+      - .env
+    command: node dist/main.js
+    restart: unless-stopped
