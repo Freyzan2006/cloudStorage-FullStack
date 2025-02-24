@@ -9,6 +9,7 @@ import clsx from "clsx";
 
 import { MdDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
+import { EAlertType, useAlertStore } from "@/common/store/alertStore";
 
 export interface ThemeSwitchProps {
   className?: string;
@@ -21,10 +22,13 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
 }) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
+  const { showAlert } = useAlertStore();
 
   const isDarkMode = theme === "dark" && !isSSR;
 
   const onChange = () => {
+    showAlert("Вы успешно изменили тему", EAlertType.SUCCESS)
+
     theme === "light" ? setTheme("dark") : setTheme("light");
     setTheme(isDarkMode ? "light" : "dark");
   };

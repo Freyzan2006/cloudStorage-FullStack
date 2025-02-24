@@ -9,7 +9,7 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
+
 
 
 
@@ -20,7 +20,12 @@ import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/common/components/ux/theme-switch";
 import { Logo } from "@/common/components/ui/Logo";
-import { LogIn, UserRoundPlus } from "lucide-react";
+
+
+
+import { AuthControl } from "@/features/auth/components/AuthControl";
+
+
 
 
 
@@ -28,7 +33,7 @@ export const NavBar: React.FC = () => {
 
 
   return (
-    <Navbar maxWidth = "xl" disableAnimation isBordered >
+    <Navbar maxWidth = "xl" className="fixed" isBordered disableAnimation >
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
@@ -67,27 +72,7 @@ export const NavBar: React.FC = () => {
       <NavbarContent justify="end">
      
         <NavbarItem className="gap-3 justify-center items-center hidden lg:flex">
-          <Button
-            // isExternal
-            as={NextLink}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.auth}
-            
-            // variant="flat"
-          >
-            <LogIn /> Логин
-          </Button>
-
-          <Button
-            // isExternal
-            as={NextLink}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.auth}
-            
-            // variant="flat"
-          >
-            <UserRoundPlus /> Зарегистрировался 
-          </Button>
+          <AuthControl />
         </NavbarItem>
         <NavbarItem>
           <ThemeSwitch />
@@ -113,27 +98,7 @@ export const NavBar: React.FC = () => {
           ))}
         
           <NavbarMenuItem className="flex flex-col items-start gap-3">
-            <Button
-              // isExternal
-              as={NextLink}
-              className="text-sm font-normal text-default-600 bg-default-100"
-              href={siteConfig.links.auth}
-              
-              // variant="flat"
-            >
-              <LogIn /> Логин
-            </Button>
-
-            <Button
-              // isExternal
-              as={NextLink}
-              className="text-sm font-normal text-default-600 bg-default-100"
-              href={siteConfig.links.auth}
-              
-              // variant="flat"
-            >
-              <UserRoundPlus /> Зарегистрировался 
-            </Button>
+            <AuthControl />
           </NavbarMenuItem>
       </NavbarMenu>
       

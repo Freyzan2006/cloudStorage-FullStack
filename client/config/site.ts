@@ -13,7 +13,7 @@ export const siteConfig = {
     },
     {
       label: "О проекте",
-      href: "/docs",
+      href: "/about",
     },
   ],
   navMenuItems: [
@@ -28,7 +28,8 @@ export const siteConfig = {
   ],
   links: {
     auth: "/auth",
-    dashboard: "/dashboard"
+    dashboard: "/dashboard",
+    profile: "/profile",
     
     // github: "https://github.com/heroui-inc/heroui",
     // twitter: "https://twitter.com/hero_ui",

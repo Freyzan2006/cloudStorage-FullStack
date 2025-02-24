@@ -8,8 +8,11 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
 
-import NavbarWrapper from "@/common/components/layout/NavBar/NavbarWrapper";
+
 import { Header } from "@/common/components/layout/Header";
+import { Footer } from "@/common/components/layout/Footer";
+import AlertUI from "@/common/components/ui/Alert/AlertUI";
+
 
 
 
@@ -50,6 +53,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <AlertUI />
           <Header />
           
           <div className="relative flex flex-col h-screen">
@@ -59,9 +63,7 @@ export default function RootLayout({
             </main>
 
           </div>
-          <footer className="w-full flex items-center justify-center py-3">
-
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
