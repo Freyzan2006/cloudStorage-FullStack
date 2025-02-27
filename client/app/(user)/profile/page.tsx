@@ -10,7 +10,7 @@ export default async function ProfilePage() {
   
 
   return (
-    <div>
+    <div className="w-full flex justify-center items-center">
       <Suspense fallback = { <div>Loading...</div> }>
         <UserInfo />
       </Suspense>

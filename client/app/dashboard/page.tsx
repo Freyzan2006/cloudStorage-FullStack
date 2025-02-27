@@ -1,4 +1,5 @@
 
+import { Dashboard } from "@/common/components/layout/Dashboard/Dashboard";
 
 
 export const metadata = {
@@ -6,14 +7,12 @@ export const metadata = {
     description: "Загрузка файлов через Dashboard",
 };
 
-
 export default function DashboardPage() {
-
     return (
-        <section>
-            <h1>It's Dashboard</h1>
+        <section className="w-full flex justify-center items-center">
+            <Dashboard />
         </section>
-    )  
+    );
 }
 
 

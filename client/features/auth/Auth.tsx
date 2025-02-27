@@ -37,6 +37,7 @@ export const Auth: React.FC = () => {
                 }
             </div>
 
+
             <div className="flex items-center justify-center gap-3">
                 {
                 range(0, 2).map(
