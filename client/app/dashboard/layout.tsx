@@ -3,8 +3,6 @@ export const metadata = {
   description: "Страница с управлением Dashboard",
 };
 
-
-
 export default function DashboardLayout({
   children,
 }: {

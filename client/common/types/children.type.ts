@@ -1,2 +1,1 @@
-
-export type TChildren = React.ReactNode
+export type TChildren = React.ReactNode;

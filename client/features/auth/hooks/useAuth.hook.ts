@@ -3,13 +3,20 @@
 import { useState, useEffect } from "react";
 import { parseCookies } from "nookies";
 
-export function useAuth(): boolean {
-    const [isAuth, setIsAuth] = useState(false);
+interface IAuth {
+  isAuth: boolean;
+}
 
-    useEffect(() => {
-        const { _token } = parseCookies();
-        setIsAuth(!!_token); 
-    }, []);
+export function useAuth(): IAuth {
+  const [isAuth, setIsAuth] = useState(false);
 
-    return isAuth;
+  useEffect(() => {
+    const { _token } = parseCookies();
+
+    setIsAuth(!!_token);
+  }, []);
+
+  return {
+    isAuth,
+  };
 }

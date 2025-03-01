@@ -6,9 +6,9 @@ import { SwitchProps, useSwitch } from "@heroui/switch";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import clsx from "clsx";
-
 import { MdDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
+
 import { EAlertType, useAlertStore } from "@/common/store/alertStore";
 
 export interface ThemeSwitchProps {
@@ -27,7 +27,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   const isDarkMode = theme === "dark" && !isSSR;
 
   const onChange = () => {
-    showAlert("Вы успешно изменили тему", EAlertType.SUCCESS)
+    showAlert("Вы успешно изменили тему", EAlertType.SUCCESS);
 
     theme === "light" ? setTheme("dark") : setTheme("light");
     setTheme(isDarkMode ? "light" : "dark");
@@ -73,19 +73,15 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
               "pt-px",
               "px-0",
               "mx-0",
-             
             ],
             classNames?.wrapper,
           ),
         })}
       >
-
-
         {isDarkMode || !isSelected || isSSR ? (
-          <MdOutlineLightMode fontSize={25} className="text-primary-500" />
-          
+          <MdOutlineLightMode className="text-primary-500" fontSize={25} />
         ) : (
-          <MdDarkMode fontSize={25} className="text-primary-300" />
+          <MdDarkMode className="text-primary-300" fontSize={25} />
         )}
       </div>
     </Component>

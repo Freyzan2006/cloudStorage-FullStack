@@ -1,6 +1,3 @@
-
-
-
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
@@ -30,7 +27,7 @@ export const siteConfig = {
     auth: "/auth",
     dashboard: "/dashboard",
     profile: "/profile",
-    
+
     // github: "https://github.com/heroui-inc/heroui",
     // twitter: "https://twitter.com/hero_ui",
     // docs: "https://heroui.com",

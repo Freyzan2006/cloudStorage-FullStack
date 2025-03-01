@@ -1,22 +1,18 @@
-'use client'
+"use client";
 
-// import { ThemeProvider } from "@emotion/react"
-import { Footer } from "./Footer"
-import { Header } from "./Header"
-import theme from "../../styles/theme"
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 
 interface IProps {
-    children: React.ReactNode 
+  children: React.ReactNode;
 }
 
 export const Layout: React.FC<IProps> = ({ children }) => {
-    return (    
-        <>
-            {/* <ThemeProvider theme={theme}> */}
-                <Header />
-                <main>{ children }</main>
-                <Footer />
-            {/* </ThemeProvider> */}
-        </>
-    )
-}
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
+};

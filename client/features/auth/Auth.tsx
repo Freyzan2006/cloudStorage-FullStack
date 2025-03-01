@@ -1,55 +1,44 @@
-"use client"
+"use client";
 
-import React from "react"
-import { LoginForm } from "./components/LoginForm"
-import { RegisterForm } from "./components/RegisterForm"
+import React from "react";
 
-import css from "./Auth.module.css"
-import { range } from "@/common/utils/range"
-import { useIsSSR } from "@react-aria/ssr"
-import { useTheme } from "next-themes"
+import { LoginForm } from "./components/LoginForm";
+import { RegisterForm } from "./components/RegisterForm";
+import css from "./Auth.module.css";
+
+import { range } from "@/common/utils/range";
 
 export const Auth: React.FC = () => {
-    const { theme } = useTheme();
-    const isSSR = useIsSSR();
+  const [current, setCurrent] = React.useState<number>(0);
+  const [sections] = React.useState<React.ReactNode[]>([
+    <LoginForm key="login" />,
+    <RegisterForm key="register" />,
+  ]);
 
-    // const isDarkMode = theme === "dark" && !isSSR;
+  const changeSection = (index: number) => {
+    setCurrent(index);
+    setKeyFrame(index);
+  };
 
-    const [current, setCurrent] = React.useState<number>(0);
-    const [sections, _] = React.useState<React.ReactNode[]>([
-        <LoginForm />,
-        <RegisterForm />
-    ])
+  const [keyFrame, setKeyFrame] = React.useState<number>(0);
 
-    const changeSection = (index: number) => {
-        console.log(theme)
-        setCurrent(index)
-        setKeyFrame(index)
-    } 
+  return (
+    <section className={css.Auth}>
+      <div key={keyFrame} className={css.Auth__section}>
+        {sections[current]}
+      </div>
 
-    const [keyFrame, setKeyFrame] = React.useState<number>();
-
-    return (
-        <section className = { css.Auth }>
-            <div className = { css.Auth__section } key = { keyFrame }>
-                {
-                    sections[current]
-                }
-            </div>
-
-
-            <div className="flex items-center justify-center gap-3">
-                {
-                range(0, 2).map(
-                (el: number) => 
-                    theme != "light" 
-                    ?
-                    <button onClick = { () => changeSection(el) } key = { el } className={`${el == current ? "bg-primary-500" : "bg-primary-100 " } p-2 rounded-medium `}></button>
-                    :
-                    <button onClick = { () => changeSection(el) } key = { el } className={` ${el == current ? "bg-primary-500" : "bg-primary-100 " } p-2 rounded-medium `}></button>
-                ) 
-                }
-            </div>         
-        </section>
-    )
-}
+      <div className="flex items-center justify-center gap-3">
+        {range(0, 2).map((el: number) => (
+          <button
+            key={el}
+            className={`p-2 rounded-medium ${
+              el === current ? "bg-primary-500" : "bg-primary-100"
+            }`}
+            onClick={() => changeSection(el)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};

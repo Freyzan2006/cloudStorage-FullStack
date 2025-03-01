@@ -1,13 +1,11 @@
+"use client";
 
-'use client'
-
-
-import NavbarWrapper from "./NavBar/NavbarWrapper"
+import NavbarWrapper from "./NavBar/NavbarWrapper";
 
 export const Header: React.FC = () => {
-    return (
-        <header>
-            <NavbarWrapper />
-        </header>
-    )
-}
+  return (
+    <header>
+      <NavbarWrapper />
+    </header>
+  );
+};

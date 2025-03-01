@@ -3,8 +3,6 @@ export const metadata = {
   description: "Страница входа в систему",
 };
 
-
-
 export default function AuthLayout({
   children,
 }: {
