@@ -1,9 +1,13 @@
 import { UserEntity } from "src/users/entities/user.entity";
 import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+
+
 export enum EFileType {
+    ALL = "all",
     PHOTOS = "photos",
-    TRASH = "trash"
+    TRASH = "trash",
+    FILES = "files"
 }
 
 @Entity("files")

@@ -1,17 +1,41 @@
 import { BaseService } from "@/common/services/BaseService";
 import { IFileDTO } from "../dto/file.dto";
 import axios from "@/config/axios";
+import EnvironmentConfig from "@/config/config";
 
-type FileType = "all" | "photos" | "trash"
+export type FileType = "all" | "photos" | "trash" | "files"
 
+export enum EFileType {
+    ALL = "all",
+    PHOTOS = "photos",
+    TRASH = "trash",
+    FILES = "files"
+}
 
 class UploadedService extends BaseService {
-    public async getAll(type: FileType = "all") : Promise<IFileDTO[]> {
-        return (await axios.get(this.fullUrlAPI(`?type=${type}`))).data;
+    public getFileUrl(filename: string): string {
+        return EnvironmentConfig.getFileUrl(filename);
+    }
+
+    public async getAll(type: EFileType = EFileType.ALL) : Promise<IFileDTO[]> {
+        console.log('Requesting files with type:', type);
+        const url = this.fullUrlAPI(`?type=${type}`);
+        console.log('Request URL:', url);
+        const response = await axios.get(url);
+        console.log('Response data:', response.data);
+        return response.data;
     }
 
     public async remove(ids: number[]) : Promise<void> {
-        return (await axios.delete(this.fullUrlAPI(`/?ids=${ids}}`))).data;
+        return (await axios.delete(this.fullUrlAPI(`/?ids=${ids}`))).data;
+    }
+
+    public async permanentlyDelete(ids: number[]) : Promise<void> {
+        return (await axios.delete(this.fullUrlAPI(`/permanent?ids=${ids}`))).data;
+    }
+
+    public async restore(ids: number[]) : Promise<void> {
+        return (await axios.post(this.fullUrlAPI(`/restore?ids=${ids}`))).data;
     }
 
     public async uploadFile(options: any) : Promise<void> {

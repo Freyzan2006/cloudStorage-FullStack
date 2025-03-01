@@ -1,26 +1,28 @@
 import { create } from 'zustand'
-import { uploadedService } from '../service/UploadedService';
+import { EFileType, uploadedService } from '../service/UploadedService';
 import { IFileDTO } from '../dto/file.dto';
-
-export type FileType = "all" | "files" | "photos" | "trash";
 
 interface IFilesStore {
     files: IFileDTO[];
     isLoading: boolean;
     error: string | null;
-    selectedType: FileType;
+    selectedType: EFileType;
     fetchFiles: () => Promise<void>;
-    setSelectedType: (type: FileType) => void;
+    setSelectedType: (type: EFileType) => void;
     refreshFiles: () => Promise<void>;
+    deleteFiles: (ids: number[]) => Promise<void>;
+    permanentlyDeleteFiles: (ids: number[]) => Promise<void>;
+    restoreFiles: (ids: number[]) => Promise<void>;
 }
 
 export const useFilesStore = create<IFilesStore>((set, get) => ({
     files: [],
     isLoading: false,
     error: null,
-    selectedType: "all",
+    selectedType: EFileType.ALL,
 
-    setSelectedType: (type) => {
+    setSelectedType: (type: EFileType) => {
+        console.log('Setting selected type:', type);
         set({ selectedType: type });
         get().fetchFiles();
     },
@@ -29,32 +31,66 @@ export const useFilesStore = create<IFilesStore>((set, get) => ({
         await get().fetchFiles();
     },
 
+    deleteFiles: async (ids: number[]) => {
+        try {
+            await uploadedService.remove(ids);
+            await get().fetchFiles();
+        } catch (error) {
+            console.error('Error deleting files:', error);
+            throw error;
+        }
+    },
+
+    permanentlyDeleteFiles: async (ids: number[]) => {
+        const { selectedType } = get();
+        
+        // Проверяем, что мы находимся в корзине
+        if (selectedType !== EFileType.TRASH) {
+            throw new Error('Окончательное удаление возможно только из корзины');
+        }
+
+        try {
+            await uploadedService.permanentlyDelete(ids);
+            await get().fetchFiles();
+        } catch (error) {
+            console.error('Error permanently deleting files:', error);
+            throw error;
+        }
+    },
+
+    restoreFiles: async (ids: number[]) => {
+        const { selectedType } = get();
+        
+        // Проверяем, что мы находимся в корзине
+        if (selectedType !== EFileType.TRASH) {
+            throw new Error('Восстановление возможно только из корзины');
+        }
+
+        try {
+            await uploadedService.restore(ids);
+            await get().fetchFiles();
+        } catch (error) {
+            console.error('Error restoring files:', error);
+            throw error;
+        }
+    },
+
     fetchFiles: async () => {
         const { selectedType } = get();
+        console.log('Fetching files for type:', selectedType);
         set({ isLoading: true, error: null });
         
         try {
-            let files: IFileDTO[] = [];
+            const files = await uploadedService.getAll(selectedType);
+            console.log('Received files:', files);
             
-            // Получаем файлы в зависимости от выбранного типа
-            if (selectedType === "all") {
-                files = await uploadedService.getAll("all");
-            } else if (selectedType === "photos") {
-                files = (await uploadedService.getAll("all")).filter(file => 
-                    file.mimetype.startsWith('image/') && !file.deletedAt
-                );
-            } else if (selectedType === "files") {
-                files = (await uploadedService.getAll("all")).filter(file => 
-                    !file.mimetype.startsWith('image/') && !file.deletedAt
-                );
-            } else if (selectedType === "trash") {
-                files = (await uploadedService.getAll("all")).filter(file => 
-                    file.deletedAt !== null
-                );
-            }
-
-            set({ files, isLoading: false });
+            set({ 
+                files, 
+                isLoading: false,
+                error: null
+            });
         } catch (error) {
+            console.error('Error fetching files:', error);
             set({ 
                 error: error instanceof Error ? error.message : 'Произошла ошибка при загрузке файлов', 
                 isLoading: false,

@@ -11,6 +11,6 @@ export class BaseService {
     }
 
     protected fullUrlAPI(path: string) {
-        return `${this.urlAPI}${path}/`
+        return `${this.urlAPI}${path}`
     }
 }

@@ -47,6 +47,8 @@ export const UploadedButton = () => {
         const { files } = e.target;
         if (files && files.length > 0) {
             addFiles(files);
+            // Очищаем input, чтобы можно было загрузить тот же файл повторно
+            e.target.value = '';
         }
     }, [addFiles]);
 
